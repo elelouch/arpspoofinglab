@@ -1,8 +1,9 @@
 ### ARP Spoof
 Docker laboratory used as a proof of concept for ARP Spoofing. The details and
-schematics were written in spanish on the PDF Document.
+schematics were written in spanish on the PDF Document. In the lab, Alice and Mallory 
+are two hosts that share the collision domain.
 
-## How to run
+## How to run and analyze
 The docker engine is a dependency.
 
 Set the environment variable
@@ -25,4 +26,5 @@ Optionally, for executing a shell with Mallory, swap "alice" by "mallory" on the
 command.
 
 Now we can start using curl with Alice. As proposed, only the HTTP traffic will be
-sniffed. The tcpdump filters can be modified on the compose.yaml file.
+sniffed by Mallory. The tcpdump filters can be modified on the compose.yaml file, we can just
+set no filters at all using using the tcpdump command.
